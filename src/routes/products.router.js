@@ -3,7 +3,7 @@ const router =  express.Router();
 const ProductService = require('./../services/product.service');
 const service = new ProductService();
 
-const validatorHandler = require('./../middlewares/validator.handler');
+const { validatorHandler } = require('./../middlewares/validator.handler');
 const { createProductSchema, updateProductSchema, getProductSchema } = require('./../schemas/product.schema');
 
 router.get('/', (req, res) => {
@@ -37,7 +37,7 @@ router.post('/', validatorHandler(createProductSchema, 'body'),
     }
 });
 
-router.patch('/:id', validatorHandler(getProductSchema, 'params').
+router.patch('/:id', validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
   (req, res, next) => {
     try{
