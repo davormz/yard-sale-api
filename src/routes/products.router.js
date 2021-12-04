@@ -6,9 +6,9 @@ const service = new ProductService();
 const { validatorHandler } = require('./../middlewares/validator.handler');
 const { createProductSchema, updateProductSchema, getProductSchema } = require('./../schemas/product.schema');
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   const { size } = req.query;
-  const products = service.find();
+  const products = await service.find();
   res.json(products);
 });
 
@@ -16,10 +16,10 @@ router.get('/', (req, res) => {
 // });
 
 router.get('/:id', validatorHandler(getProductSchema, 'params'),
-  (req, res, next) => {
+  async (req, res, next) => {
     try {
       const { id } = req.params;
-      const product =service.findOne(id);
+      const product = service.findOne(id);
       res.json(product);
     } catch (error){
       next(error);
@@ -27,10 +27,10 @@ router.get('/:id', validatorHandler(getProductSchema, 'params'),
 });
 
 router.post('/', validatorHandler(createProductSchema, 'body'),
-  (req, res, next) => {
+  async (req, res, next) => {
     try{
       const body = req.body;
-      const newProduct = service.create(body);
+      const newProduct = await service.create(body);
       res.status(201).json(newProduct);
     }catch(error){
       next(error);
@@ -39,11 +39,11 @@ router.post('/', validatorHandler(createProductSchema, 'body'),
 
 router.patch('/:id', validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
-  (req, res, next) => {
+  async (req, res, next) => {
     try{
       const { id } = req.params;
       const body = req.body;
-      const product = service.update(id, body);
+      const product = await service.update(id, body);
       res.json( product );
     } catch(error){
       next(error);
@@ -57,11 +57,11 @@ router.put('/:id', (req, res) => {
   res.json( product );
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try{
     const { id } = req.params;
     const body = req.body;
-    const message = service.delete(id, body);
+    const message = await service.delete(id, body);
     res.json( message );
   } catch(error){
     next(error);
