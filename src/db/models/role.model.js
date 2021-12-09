@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const PRODUCT_TABLE_NAME = "products";
+const ROLE_TABLE_NAME = "roles";
 
-const ProductSchema = {
+const RoleSchema = {
   id: {
     allowNull:false,
     primaryKey: true,
@@ -11,13 +11,6 @@ const ProductSchema = {
   name: {
     allowNull:false,
     type: DataTypes.STRING
-  },
-  price: {
-    allowNull:false,
-    type: DataTypes.FLOAT
-  },
-  available: {
-    type: DataTypes.BOOLEAN
   },
   createdAt: {
     allowNull: false,
@@ -33,7 +26,7 @@ const ProductSchema = {
   }
 };
 
-class Product extends Model{
+class Role extends Model{
   static associate(){
     //models
   }
@@ -41,11 +34,11 @@ class Product extends Model{
   static config(sequelize){
     return {
       sequelize,
-      tableName: PRODUCT_TABLE_NAME,
-      modelName: 'Product',
+      tableName: ROLE_TABLE_NAME,
+      modelName: 'Role',
       timeStamps:false
     }
   }
 }
 
-module.exports = { PRODUCT_TABLE_NAME, ProductSchema, Product };
+module.exports = { ROLE_TABLE_NAME, RoleSchema, Role };
