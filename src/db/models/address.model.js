@@ -1,14 +1,38 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { CUSTOMER_TABLE_NAME } = require('./customer.model');
-const { PRODUCT_TABLE_NAME } = require('./product.model');
 
-const ORDER_TABLE_NAME = "orders";
+const ADDRESS_TABLE_NAME = "addresses";
 
-const OrderSchema = {
+const AddressSchema = {
   id: {
     allowNull:false,
     primaryKey: true,
     type: DataTypes.STRING
+  },
+  type: {
+    allowNull:false,
+    type: DataTypes.STRING,
+    defaultValue: 'shipping'
+  },
+  street: {
+    allowNull:false,
+    type: DataTypes.STRING,
+  },
+  city: {
+    allowNull:false,
+    type: DataTypes.STRING,
+  },
+  state: {
+    allowNull:false,
+    type: DataTypes.STRING,
+  },
+  zip: {
+    allowNull:false,
+    type: DataTypes.STRING,
+  },
+  country: {
+    allowNull:false,
+    type: DataTypes.STRING,
   },
   createdAt: {
     allowNull: false,
@@ -26,46 +50,29 @@ const OrderSchema = {
     field: 'customer_id',
     allowNull: false,
     type: DataTypes.STRING,
+    unique: true,
     references: {
       model: CUSTOMER_TABLE_NAME,
       key: 'id'
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
-  },
-  totalPrice: {
-    type: DataTypes.VIRTUAL,
-    get() {
-      if (this.items.length > 0) {
-        return this.items.reduce((total, item) => {
-          return total + (item.price * item.OrderProduct.amount);
-        }, 0);
-      }
-      return 0;
-    }
-  },
+  }
 };
 
-class Order extends Model{
+class Address extends Model{
   static associate(models){
-    this.belongsTo(models.Customer, { as: 'customer' });
-    this.belongsToMany(models.Product, {
-      as: 'items',
-      through: models.OrderProduct,
-      foreignKey: 'orderId',
-      otherKey: 'productId'
-    });
-
+    this.belongsTo(models.Customer, {as: 'customer'});
   }
 
   static config(sequelize){
     return {
       sequelize,
-      tableName: ORDER_TABLE_NAME,
-      modelName: 'Order',
-      timeStamps:false
+      tableName: ADDRESS_TABLE_NAME,
+      modelName: 'Address',
+      timeStamps: false
     }
   }
 }
 
-module.exports = { ORDER_TABLE_NAME, OrderSchema, Order };
+module.exports = { ADDRESS_TABLE_NAME, AddressSchema, Address };

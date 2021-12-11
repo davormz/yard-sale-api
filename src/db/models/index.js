@@ -5,15 +5,34 @@ const { Image, ImageSchema } = require('./images.model');
 const { Order, OrderSchema } = require('./order.model');
 const { Role, RoleSchema } = require('./role.model');
 const { User, UserSchema } = require('./user.model');
+const { OrderProduct, OrderProductSchema } = require('./order-product.model');
+const { UserRole, UserRoleSchema } = require('./users-roles.model');
 
 function setupModels(sequelize){
+  initModels(sequelize);
+  initAssociations(sequelize);
+}
+
+function initModels(sequelize){
   Product.init(ProductSchema, Product.config(sequelize));
-  Category.init(CategorySchema, Product.config(sequelize));
-  Customer.init(CustomerSchema, Product.config(sequelize));
-  Image.init(ImageSchema, Product.config(sequelize));
-  Order.init(OrderSchema, Product.config(sequelize));
-  Role.init(RoleSchema, Product.config(sequelize));
-  User.init(UserSchema, Product.config(sequelize));
+  Category.init(CategorySchema, Category.config(sequelize));
+  Customer.init(CustomerSchema, Customer.config(sequelize));
+  Image.init(ImageSchema, Image.config(sequelize));
+  Order.init(OrderSchema, Order.config(sequelize));
+  Role.init(RoleSchema, Role.config(sequelize));
+  User.init(UserSchema, User.config(sequelize));
+  OrderProduct.init(OrderProductSchema, OrderProduct.config(sequelize));
+  UserRole.init(UserRoleSchema, UserRole.config(sequelize));
+}
+
+function initAssociations(sequelize){
+  Product.associate(sequelize.models);
+  Category.associate(sequelize.models);
+  Customer.associate(sequelize.models);
+  Image.associate(sequelize.models);
+  Order.associate(sequelize.models);
+  Role.associate(sequelize.models);
+  User.associate(sequelize.models);
 }
 
 module.exports = setupModels;
