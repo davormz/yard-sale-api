@@ -1,4 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { PRODUCT_TABLE_NAME } = require('./product.model');
 
 const IMAGES_TABLE_NAME = "images";
 
@@ -26,12 +27,23 @@ const ImageSchema = {
     type: DataTypes.DATE,
     field: 'updated_at',
     defaultValue: Sequelize.NOW
+  },
+  productId: {
+    field: 'product_id',
+    allowNull: false,
+    type: DataTypes.STRING,
+    references: {
+      model: PRODUCT_TABLE_NAME,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
   }
 };
 
 class Image extends Model{
-  static associate(){
-    //models
+  static associate(models){
+    this.belongsTo(models.Product, {as: 'product'});
   }
 
   static config(sequelize){
