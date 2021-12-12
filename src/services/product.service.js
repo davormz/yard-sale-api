@@ -1,4 +1,3 @@
-const faker = require('faker');
 const boom = require('@hapi/boom');
 const { v4: uuidv4 } = require('uuid');
 
@@ -8,7 +7,6 @@ const { UPSERT } = require('sequelize/dist/lib/query-types');
 class ProductService{
 
   constructor(){
-    // this.products = this.generateRandomProducts(5);
   }
 
   async create(data){
@@ -18,14 +16,18 @@ class ProductService{
   }
 
   async find(){
-    const result = await models.Product.findAll();
+    const result = await models.Product.findAll({
+      include: ['images']
+    });
     return result;
   }
 
   async findOne(id){
-    const product = await models.Product.findByPk(id);
+    const product = await models.Product.findByPk(id, {
+      include: ['images', 'categories']
+    });
     if( !product ){
-      throw boom.notFound('User not found!');
+      throw boom.notFound('Product not found!');
     }
     return product;
   }
@@ -40,20 +42,6 @@ class ProductService{
     const product = await this.findOne(id);
     await product.destroy();
     return { id };
-  }
-
-  generateRandomProducts(limit){
-    const products = [];
-    for (let index = 0; index < limit; index++){
-      products.push({
-        id: faker.datatype.uuid(),
-        name: faker.commerce.productName(),
-        price: parseInt(faker.commerce.price(), 10),
-        image: faker.image.imageUrl(),
-
-      })
-    }
-    return products;
   }
 
 }

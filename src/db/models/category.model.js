@@ -28,8 +28,13 @@ const CategorySchema = {
 };
 
 class Category extends Model{
-  static associate(){
-    //models
+  static associate(models){
+    this.belongsToMany(models.Product, {
+      as: 'products',
+      through: models.ProductCategory,
+      foreignKey: 'categoryId',
+      otherKey: 'productId'
+    });
   }
 
   static config(sequelize){

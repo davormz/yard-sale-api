@@ -50,7 +50,7 @@ class Customer extends Model{
   static associate(models){
     this.belongsTo(models.User, {as: 'user'});
     this.hasMany(models.Address, {
-      as: 'address',
+      as: 'addresses',
       foreignKey: 'customerId'
     });
     this.hasMany(models.Order, {

@@ -17,7 +17,8 @@ const ProductSchema = {
     type: DataTypes.FLOAT
   },
   available: {
-    type: DataTypes.BOOLEAN
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
   },
   createdAt: {
     allowNull: false,

@@ -50,14 +50,8 @@ router.patch('/:id', validatorHandler(getProductSchema, 'params'),
     }
 });
 
-router.put('/:id', (req, res) => {
-  const { id } = req.params;
-  const body = req.body;
-  const product = service.update(id, body);
-  res.json( product );
-});
-
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', validatorHandler(getProductSchema, 'params'),
+  async (req, res, next) => {
   try{
     const { id } = req.params;
     const body = req.body;
@@ -66,6 +60,6 @@ router.delete('/:id', async (req, res, next) => {
   } catch(error){
     next(error);
   }
-})
+});
 
 module.exports = router;

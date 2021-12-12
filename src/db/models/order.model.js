@@ -34,7 +34,7 @@ const OrderSchema = {
     onDelete: 'SET NULL'
   },
   totalPrice: {
-    type: DataTypes.VIRTUAL,
+    type: DataTypes.FLOAT,
     get() {
       if (this.items.length > 0) {
         return this.items.reduce((total, item) => {
@@ -43,7 +43,7 @@ const OrderSchema = {
       }
       return 0;
     }
-  },
+  }
 };
 
 class Order extends Model{

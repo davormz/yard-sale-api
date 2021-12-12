@@ -5,8 +5,10 @@ const { Image, ImageSchema } = require('./images.model');
 const { Order, OrderSchema } = require('./order.model');
 const { Role, RoleSchema } = require('./role.model');
 const { User, UserSchema } = require('./user.model');
+const { Address, AddressSchema} = require('./address.model');
 const { OrderProduct, OrderProductSchema } = require('./order-product.model');
 const { UserRole, UserRoleSchema } = require('./users-roles.model');
+const { ProdcutCategory, ProductCategorySchema } = require('../models/products-categories.model');
 
 function setupModels(sequelize){
   initModels(sequelize);
@@ -21,8 +23,10 @@ function initModels(sequelize){
   Order.init(OrderSchema, Order.config(sequelize));
   Role.init(RoleSchema, Role.config(sequelize));
   User.init(UserSchema, User.config(sequelize));
+  Address.init(AddressSchema, Address.config(sequelize));
   OrderProduct.init(OrderProductSchema, OrderProduct.config(sequelize));
   UserRole.init(UserRoleSchema, UserRole.config(sequelize));
+  ProdcutCategory.init(ProductCategorySchema, ProdcutCategory.config(sequelize));
 }
 
 function initAssociations(sequelize){
@@ -33,6 +37,7 @@ function initAssociations(sequelize){
   Order.associate(sequelize.models);
   Role.associate(sequelize.models);
   User.associate(sequelize.models);
+  Address.associate(sequelize.models);
 }
 
 module.exports = setupModels;
