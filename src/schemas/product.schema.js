@@ -4,6 +4,9 @@ const id = Joi.string().uuid();
 const name = Joi.string().min(2).max(50);
 const price = Joi.number().integer().min(1);
 
+const limit = Joi.number().integer()
+const offset = Joi.number().integer()
+
 const createProductSchema = Joi.object({
   name: name.required(),
   price: price.required()
@@ -18,4 +21,9 @@ const getProductSchema = Joi.object({
   id: id.required()
 });
 
-module.exports = { createProductSchema, updateProductSchema, getProductSchema}
+const querySchema = Joi.object({
+  limit,
+  offset
+});
+
+module.exports = { createProductSchema, updateProductSchema, getProductSchema, querySchema}

@@ -15,10 +15,16 @@ class ProductService{
     return newProduct;
   }
 
-  async find(){
-    const result = await models.Product.findAll({
+  async find(query){
+    const options = {
       include: ['images']
-    });
+    };
+    const { limit, offset } = query;
+    if(limit && offset){
+      options.limit = limit;
+      options.offset = offset;
+    }
+    const result = await models.Product.findAll(options);
     return result;
   }
 
