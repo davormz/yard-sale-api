@@ -1,6 +1,6 @@
 const boom = require('@hapi/boom');
 const { v4: uuidv4 } = require('uuid');
-
+const { Op } = require('sequelize');
 const { models } = require('./../libs/sequelize');
 const { UPSERT } = require('sequelize/dist/lib/query-types');
 
@@ -17,12 +17,22 @@ class ProductService{
 
   async find(query){
     const options = {
-      include: ['images']
+      include: ['images'],
+      where: {}
     };
-    const { limit, offset } = query;
+    const { limit, offset, price, price_min, price_max } = query;
     if(limit && offset){
       options.limit = limit;
       options.offset = offset;
+    }
+    if(price){
+      options.where.price = price;
+    }
+    if(price_min && price_max){
+      options.where.price = {
+        [Op.gte]: price_min,
+        [Op.lte]: price_max,
+      };
     }
     const result = await models.Product.findAll(options);
     return result;
