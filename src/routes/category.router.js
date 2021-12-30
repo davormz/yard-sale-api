@@ -57,6 +57,6 @@ router.delete('/:id', validatorHandler(getCategorySchema, 'params'),
   } catch(error){
     next(error);
   }
-})
+});
 
 module.exports = router;

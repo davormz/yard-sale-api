@@ -37,7 +37,7 @@ const OrderProductSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
-  orderId: {
+  productId: {
     field: 'product_id',
     allowNull: false,
     type: DataTypes.STRING,
