@@ -12,6 +12,8 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
+require('./utils/auth');
+
 app.get('/', (req, res) => {
   res.send('My Express server!');
 });
