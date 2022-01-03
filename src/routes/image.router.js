@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const router =  express.Router();
 const ImageService = require('./../services/image.service');
 const service = new ImageService();
@@ -23,7 +24,8 @@ router.get('/:id',
     }
 });
 
-router.post('/', validatorHandler(createImageSchema, 'body'),
+router.post('/', passport.authenticate('jwt', {session: false}),
+  validatorHandler(createImageSchema, 'body'),
   async (req, res, next) => {
     try{
       const body = req.body;
@@ -34,7 +36,8 @@ router.post('/', validatorHandler(createImageSchema, 'body'),
     }
 });
 
-router.patch('/:id', validatorHandler(getImageSchema, 'params'),
+router.patch('/:id', passport.authenticate('jwt', {session: false}),
+  validatorHandler(getImageSchema, 'params'),
   validatorHandler(updateImageSchema, 'body'),
   async (req, res, next) => {
     try{
@@ -47,7 +50,8 @@ router.patch('/:id', validatorHandler(getImageSchema, 'params'),
     }
 });
 
-router.delete('/:id', validatorHandler(getImageSchema, 'params'),
+router.delete('/:id', passport.authenticate('jwt', {session: false}),
+  validatorHandler(getImageSchema, 'params'),
   async (req, res, next) => {
   try{
     const { id } = req.params;

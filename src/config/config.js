@@ -8,7 +8,10 @@ const config = {
   dbHost: process.env.DB_HOST,
   dbName: process.env.DB_NAME,
   dbPort: process.env.DB_PORT,
-  apiKey: process.env.API_KEY
+  apiKey: process.env.SEC_API_KEY,
+  securitySalt: process.env.SEC_SALT,
+  jwtSecret: process.env.SEC_JWT_SECRET
+
 }
 
 module.exports = { config };

@@ -1,11 +1,14 @@
 const express = require('express');
+const passport = require('passport');
 const router =  express.Router();
 const CustomerService = require('./../services/customer.service');
 const service = new CustomerService();
 const { validatorHandler } = require('./../middlewares/validator.handler');
 const { createCustomerSchema, updateCustomerSchema, getCustomerSchema } = require('./../schemas/customer.schema');
 
-router.get('/', async (req, res) => {
+router.all('/*', passport.authenticate('jwt', {session: false}));
+
+router.get('/',  async (req, res) => {
   const { size } = req.query;
   const customer = await service.find();
   res.json(customer);

@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const router =  express.Router();
 const CategoryService = require('./../services/category.service');
 const service = new CategoryService();
@@ -23,7 +24,8 @@ router.get('/:id', validatorHandler(getCategorySchema, 'params'),
     }
 });
 
-router.post('/', validatorHandler(createCategorySchema, 'body'),
+router.post('/', passport.authenticate('jwt', {session: false}),
+  validatorHandler(createCategorySchema, 'body'),
   async (req, res, next) => {
     try{
       const body = req.body;
@@ -34,7 +36,8 @@ router.post('/', validatorHandler(createCategorySchema, 'body'),
     }
 });
 
-router.patch('/:id', validatorHandler(getCategorySchema, 'params'),
+router.patch('/:id', passport.authenticate('jwt', {session: false}),
+  validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'),
   async (req, res, next) => {
     try{
@@ -47,7 +50,8 @@ router.patch('/:id', validatorHandler(getCategorySchema, 'params'),
     }
 });
 
-router.delete('/:id', validatorHandler(getCategorySchema, 'params'),
+router.delete('/:id', passport.authenticate('jwt', {session: false}),
+  validatorHandler(getCategorySchema, 'params'),
   async (req, res, next) => {
   try{
     const { id } = req.params;

@@ -1,9 +1,12 @@
 const express = require('express');
+const passport = require('passport');
 const router =  express.Router();
 const OrderService = require('./../services/order.service');
 const service = new OrderService();
 const { validatorHandler } = require('./../middlewares/validator.handler');
 const { createOrderSchema,updateOrderSchema, getOrderSchema } = require('./../schemas/order.schema');
+
+router.all('/*', passport.authenticate('jwt', {session: false}));
 
 router.get('/', async (req, res) => {
   const { size } = req.query;

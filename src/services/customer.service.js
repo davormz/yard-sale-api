@@ -7,7 +7,18 @@ class CustomerService{
   constructor() {}
 
   async create(data){
+    let newCustomer = null;
     data.id = uuidv4();
+    if(data.user){
+      newCustomer = await createWithUserData(data);
+    } else {
+      newCustomer = await models.Customer.create(data);
+    }
+
+    return newCustomer;
+  }
+
+  async createWithUserData(data){
     const hash = await bcrypt.hash(data.user.password, 5);
     const newData = {
       ...data,

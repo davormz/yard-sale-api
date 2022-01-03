@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const router =  express.Router();
 const ProductService = require('./../services/product.service');
 const service = new ProductService();
@@ -30,7 +31,8 @@ router.get('/:id', validatorHandler(getProductSchema, 'params'),
     }
 });
 
-router.post('/', validatorHandler(createProductSchema, 'body'),
+router.post('/', passport.authenticate('jwt', {session: false}),
+  validatorHandler(createProductSchema, 'body'),
   async (req, res, next) => {
     try{
       const body = req.body;
@@ -41,7 +43,8 @@ router.post('/', validatorHandler(createProductSchema, 'body'),
     }
 });
 
-router.patch('/:id', validatorHandler(getProductSchema, 'params'),
+router.patch('/:id', passport.authenticate('jwt', {session: false}),
+  validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
   async (req, res, next) => {
     try{
@@ -54,7 +57,8 @@ router.patch('/:id', validatorHandler(getProductSchema, 'params'),
     }
 });
 
-router.delete('/:id', validatorHandler(getProductSchema, 'params'),
+router.delete('/:id', passport.authenticate('jwt', {session: false}),
+  validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
   try{
     const { id } = req.params;
